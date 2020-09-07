@@ -1,3 +1,5 @@
+import { LoginForm } from './interface/login'
+
 /**
  * @description User-Service parameters
  */
@@ -20,4 +22,5 @@ export interface IUserResult {
  */
 export interface IUserService {
   getUser(options: IUserOptions): Promise<IUserResult>;
+  login(options: LoginForm): any;
 }

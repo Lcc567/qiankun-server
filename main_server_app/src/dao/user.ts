@@ -1,19 +1,15 @@
 import { provide, plugin } from 'midway';
-// import jwt from 'simple-jwt';
+import jwt from 'simple-jwt';
+import { LoginForm } from '../interface/login'
 
 @provide()
 class UserDao {
-  // ctx: Context;
-  // constructor(ctx: Context) {
-  //   this.ctx = ctx;
-  // }
   @plugin()
   mysql;
 
-  async login() {
-    const result = await this.mysql.get('user');
-    console.log('-------', result);
-    return result;
+  async login(options: LoginForm){
+    // const result = await this.mysql.get('user');
+    return 'result';
   }
 }
 
