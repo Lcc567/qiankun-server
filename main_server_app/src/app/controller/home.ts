@@ -1,5 +1,5 @@
 import { Context, inject, controller, get, provide, post } from 'midway';
-import { LoginForm } from "../../interface/login";
+import { isNull } from 'util';
 import { IUserService, IUserResult } from '../../interface';
 
 @provide()
@@ -10,7 +10,7 @@ export class HomeController {
   ctx: Context;
 
   @inject('userService')
-  service: IUserService
+  service: IUserService;
 
   @get('/')
   async index() {
@@ -18,9 +18,16 @@ export class HomeController {
   }
 
   @post('/login')
-  async login(options: LoginForm) {
-    // console.log('======',options, this.ctx.request);
-    
-    await this.service.login(options)
+  async login(): Promise<void> {
+    const params = this.ctx.request.body;
+    const result = await this.service.login(params);
+    if (result.length > 0) {
+      this.ctx.successReturn(result[0]);
+    } else {
+      this.ctx.body = {
+        code: 500,
+        msg: '账号或密码错误'
+      };
+    }
   }
 }

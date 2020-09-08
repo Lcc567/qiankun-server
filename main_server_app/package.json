@@ -7,8 +7,8 @@
     "egg-cors": "^2.2.3",
     "egg-mysql": "^3.0.0",
     "egg-scripts": "^2.10.0",
-    "midway": "^1.0.0",
-    "simple-jwt": "^1.0.3"
+    "jsonwebtoken": "^8.5.1",
+    "midway": "^1.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",

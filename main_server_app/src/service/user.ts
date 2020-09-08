@@ -1,20 +1,35 @@
 import { provide, plugin, inject, Context } from 'midway';
 import { IUserService, IUserOptions, IUserResult } from '../interface';
 import UserDao from '../dao/user';
-import { LoginForm } from "../interface/login";
+import { LoginForm } from '../interface/login';
 
+const JWT = require('jsonwebtoken');
 @provide('userService')
 export class UserService implements IUserService {
+  @plugin()
+  mysql;
 
   @inject()
-  ctx: Context
+  ctx: Context;
 
   @inject()
   userDao: UserDao;
 
   async login(options: LoginForm) {
-    console.log('======', options, this.ctx);
-    const result = await this.userDao.login(options);
+    const result = await this.mysql.select('user', {
+      where: { username: options.username },
+      columns: ['username', 'phone', 'email', 'age']
+    });
+    console.log('result', result);
+    if (result && result.length === 1) {
+      console.log('Math.floor(Date.now() / 1000) + (60 * 60)', Math.floor(Date.now() / 1000) + (60 * 60));
+      const token = JWT.sign({
+        exp: 60 * 60,
+        data: result
+      }, this.ctx.app.config.auth.secret);
+      result[0].token = token;
+      console.log('token', result);
+    }
     return result;
   }
 

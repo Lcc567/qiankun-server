@@ -13,11 +13,17 @@ export default (appInfo: EggAppInfo) => {
   ];
 
   config.security = {
+    // 跨域
     csrf: {
       enable: false
     },
+    // 白名单
     domainWhiteList: ['*']
-  }
+  };
+
+  config.auth = {
+    secret: 'qiankun',
+  };
 
   config.mysql = {
     client: {
