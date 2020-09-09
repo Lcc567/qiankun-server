@@ -1,7 +1,6 @@
 import { Context, controller, get, inject, provide, plugin, post } from 'midway';
 import { IUserService, IUserResult } from '../../interface';
 
-
 @provide()
 @controller('/user')
 export class UserController {

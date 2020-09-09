@@ -1,6 +1,5 @@
 import { provide, plugin, inject, Context } from 'midway';
 import { IUserService, IUserOptions, IUserResult } from '../interface';
-import UserDao from '../dao/user';
 import { LoginForm } from '../interface/login';
 
 const JWT = require('jsonwebtoken');
@@ -11,9 +10,6 @@ export class UserService implements IUserService {
 
   @inject()
   ctx: Context;
-
-  @inject()
-  userDao: UserDao;
 
   async login(options: LoginForm) {
     const result = await this.mysql.select('user', {
