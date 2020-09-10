@@ -1,6 +1,6 @@
 import { Context, inject, controller, get, provide, post } from 'midway';
-import { isNull } from 'util';
 import { IUserService, IUserResult } from '../../interface';
+const JWT = require('jsonwebtoken');
 
 @provide()
 @controller('/')
@@ -15,6 +15,22 @@ export class HomeController {
   @get('/')
   async index() {
     this.ctx.body = `Welcome to midwayjs!`;
+  }
+
+  @get('/verify')
+  async verify() {
+    const token = this.ctx.request.header.authorization;
+    try {
+      const secret = this.ctx.app.config.auth.secret;
+      const result = await this.ctx.helper.verifyToken(token, secret);
+      const newToken = await this.ctx.helper.updateToken(result.data, secret);
+      this.ctx.successReturn(newToken);
+    } catch (error) {
+      this.ctx.body = {
+        code: 401,
+        msg: 'token无效'
+      };
+    }
   }
 
   @post('/login')

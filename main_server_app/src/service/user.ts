@@ -18,10 +18,9 @@ export class UserService implements IUserService {
     });
     console.log('result', result);
     if (result && result.length === 1) {
-      console.log('Math.floor(Date.now() / 1000) + (60 * 60)', Math.floor(Date.now() / 1000) + (60 * 60));
       const token = JWT.sign({
-        exp: 60 * 60,
-        data: result
+        exp: Math.floor(Date.now() / 1000) + (60 * 60),
+        data: result[0]
       }, this.ctx.app.config.auth.secret);
       result[0].token = token;
       console.log('token', result);
